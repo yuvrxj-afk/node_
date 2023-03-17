@@ -11,14 +11,31 @@ const path = require('path')
 //     res.send("This is about page")
 // })
 
-// app.get('', (req, res) => {
-//     res.send("This is no page")
-// })
-
 const app = express();
 
+app.set('view engine', 'ejs')
 const publicPath = path.join(__dirname, 'public')
 
-app.use(express.static(publicPath))
+app.get('', (req, res) => {
+    res.sendFile(`${publicPath}/about.html`)
+})
+
+app.get('/home', (req, res) => {
+    res.sendFile(`${publicPath}/home.html`)
+})
+
+app.get('/profile', (req, res) => {
+    const user = {
+        name: "uv",
+        and: " hi "
+    }
+    res.render('profile', { user })
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(`${publicPath}/404.html`)
+})
+
+// app.use(express.static(publicPath))
 
 app.listen(3000);
